@@ -1,0 +1,23 @@
+# catalog.yaml — 模块 SSOT(认知单位,仿 Backstage catalog-info.yaml)
+name: messauto
+domain: desktop-app
+function: 外来 fork 的 macOS 验证码自动提取 app(上游 LeeeSe/MessAuto,Rust,信息 App + 邮件 App) — 本 fork 增强「钉钉验证码」(读 macOS 通知中心库,2s 定时轮询)
+public_api: "/Applications/MessAuto.app(装机版即本 fork 自编译产物,常驻托盘) · 验证码到达自动填剪贴板/自动回车 · 配置 ~/.config/messauto/messauto.json"
+key_scripts:
+  - src/monitor/dingtalk.rs      # 本 fork 核心增强:通知中心库轮询(POLL_INTERVAL=2s),按 rec_id 增量
+  - src/monitor/message.rs       # 上游:信息 App(chat.db)监听
+  - src/monitor/email.rs         # 上游:邮件 App(.emlx)监听
+  - src/parser.rs                # 验证码正则解析(已加浙水设计综合管理平台用例)
+  - src/permissions.rs           # 全磁盘访问/辅助功能权限体检
+  - src/config.rs                # 配置读写(落 ~/.config/messauto/messauto.json)
+depends_on: []          # 自带完整依赖(Cargo),不消费总部任何能力 → A 档,故落 ~/Apps
+tier: PACKAGE
+owner: LeeeSe           # 上游作者;本 fork = GitHub 真 fork,origin=zengtianli/MessAuto(isFork=true),另配 upstream remote
+docs: ./CLAUDE.md
+status: active          # 日常在用:/Applications/MessAuto.app 由本仓自编译(二进制 mtime 与 target/release 一致)
+notes: |
+  2026-07-25 从 ~/Dev 根归位到 ~/Apps(A 档:自带完整依赖、不 import 总部代码)。
+  当前分支 feat/dingtalk-support,领先 upstream/master 4 个提交。
+  上游 PR LeeeSe/MessAuto#107 状态 CLOSED(draft,未合并)—— 抢跑提了才转 draft,教训见 memory
+  feedback-verify-effective-before-pr:本机构建→安装→真实场景端到端确认有效才 PR。
+  钉钉这条线**禁改回 FSEvents 文件监听**:通知中心是高频 WAL 库,实测新通知不触发事件(代码注释已记)。
