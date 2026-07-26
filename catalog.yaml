@@ -14,10 +14,12 @@ depends_on: []          # 自带完整依赖(Cargo),不消费总部任何能力 
 tier: PACKAGE
 owner: LeeeSe           # 上游作者;本 fork = GitHub 真 fork,origin=zengtianli/MessAuto(isFork=true),另配 upstream remote
 docs: ./CLAUDE.md
-status: active          # 日常在用:/Applications/MessAuto.app 由本仓自编译(二进制 mtime 与 target/release 一致)
+lifecycle: active    # 日常在用:/Applications/MessAuto.app 由本仓自编译(二进制 mtime 与 target/release 一致)
 notes: |
   2026-07-25 从 ~/Dev 根归位到 ~/Apps(A 档:自带完整依赖、不 import 总部代码)。
   当前分支 feat/dingtalk-support,领先 upstream/master 4 个提交。
   上游 PR LeeeSe/MessAuto#107 状态 CLOSED(draft,未合并)—— 抢跑提了才转 draft,教训见 memory
   feedback-verify-effective-before-pr:本机构建→安装→真实场景端到端确认有效才 PR。
   钉钉这条线**禁改回 FSEvents 文件监听**:通知中心是高频 WAL 库,实测新通知不触发事件(代码注释已记)。
+
+bundle_id: com.doe.messauto    # 同上
