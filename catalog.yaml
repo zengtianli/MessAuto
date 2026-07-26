@@ -7,7 +7,7 @@ key_scripts:
   - src/monitor/dingtalk.rs      # 本 fork 核心增强:通知中心库轮询(POLL_INTERVAL=2s),按 rec_id 增量
   - src/monitor/message.rs       # 上游:信息 App(chat.db)监听
   - src/monitor/email.rs         # 上游:邮件 App(.emlx)监听
-  - src/parser.rs                # 验证码正则解析(已加浙水设计综合管理平台用例)
+  - src/parser.rs                # 验证码正则解析(已加示例单位综合管理平台用例)
   - src/permissions.rs           # 全磁盘访问/辅助功能权限体检
   - src/config.rs                # 配置读写(落 ~/.config/messauto/messauto.json)
 depends_on: []          # 自带完整依赖(Cargo),不消费总部任何能力 → A 档,故落 ~/Apps

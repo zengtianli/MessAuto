@@ -11,7 +11,7 @@
 - `src/monitor/dingtalk.rs` — 读 macOS 通知中心库，按 `rec_id` 增量取 bundle id `com.alibaba.dingtalkmac` 的通知
 - **定时轮询 `POLL_INTERVAL = 2s`，不是文件事件**——通知中心是高频 WAL 库，实测 `notify`(FSEvents) 对它不可靠，新通知写入不触发事件。**禁改回文件监听**（这是踩过的坑，代码注释已记）
 - 启动时以当前最大 `rec_id` 为基线，避免把历史通知当新验证码
-- `src/parser.rs` 已加「浙水设计综合管理平台」验证码测试用例
+- `src/parser.rs` 已加「示例单位综合管理平台」验证码测试用例
 
 ## 构建 / 安装
 
