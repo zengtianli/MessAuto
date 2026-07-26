@@ -15,6 +15,8 @@ tier: PACKAGE
 owner: LeeeSe           # 上游作者;本 fork = GitHub 真 fork,origin=zengtianli/MessAuto(isFork=true),另配 upstream remote
 docs: ./CLAUDE.md
 lifecycle: active    # 日常在用:/Applications/MessAuto.app 由本仓自编译(二进制 mtime 与 target/release 一致)
+origin: third_party    # LeeeSe · 175 commits 我 7 · 加「钉钉验证码」,上游 PR #107 CLOSED
+upstream: https://github.com/LeeeSe/MessAuto
 notes: |
   2026-07-25 从 ~/Dev 根归位到 ~/Apps(A 档:自带完整依赖、不 import 总部代码)。
   当前分支 feat/dingtalk-support,领先 upstream/master 4 个提交。
