@@ -1,5 +1,21 @@
 # CLAUDE.md · messauto（上游 fork + 自研钉钉支持）
 
+> 🗄️ **2026-07-28：app 已卸载，本仓进入 frozen。**
+> `/Applications/MessAuto.app` 已移入 `~/.Trash/`，`~/.config/messauto/` 与
+> dotfiles 里的 `_dotfiles/messauto/`、`link.sh`/`unlink.sh` 条目一并清除
+> （备份在 `~/.Trash/messauto-residue-20260728/`）。**源码仓保留在原位**，随时可重编译回装。
+>
+> **卸载原因（实测，非体感）**：空闲烧 **87.9% 单核**、累计 1514 分钟用户态 CPU。
+> `sample` 3005/3005 帧卡在 `email` crate 0.0.21 的 `Rfc5322Parser::consume_header`；
+> 且 `process_file` 是在 watch 循环里**同步**调的 —— 卡住后邮件功能整个失效，
+> 一边失效一边钉住一个核。这是 bug 不是设计。
+>
+> **替代品**：[otp-sh](https://github.com/zengtianli/otp-sh)（自研，216 行 POSIX sh +
+> launchd WatchPaths，零依赖，空闲 0 进程）。短信路径已端到端验证；
+> **钉钉路径尚未端到端验证** —— 所以本仓是 `frozen` 不是 `archived`，
+> 且 `feat/dingtalk-support` 是那份钉钉工作的唯一副本（上游 PR #107 已 CLOSED）。
+> 等 otp-sh 钉钉路径验通再转 archived 并走 `/refactor dir` 移入 `_archive/`。
+
 > 上游 = [LeeeSe/MessAuto](https://github.com/LeeeSe/MessAuto)（Rust，macOS 自动提取短信/邮件验证码，v1.3.0）。
 > 本 clone = **GitHub 真 fork**，`origin` → [`zengtianli/MessAuto`](https://github.com/zengtianli/MessAuto)（isFork=true，parent=LeeeSe/MessAuto），另配 `upstream` remote 指上游。
 > **2026-07-25 从 `~/Dev` 根归位到 `~/Apps`**（A 档：自带完整依赖、不 import 总部代码）。
@@ -16,14 +32,14 @@
 ## 构建 / 安装
 
 ```bash
-cd ~/Apps/messauto
+cd ~/Apps/vendor/messauto
 cargo build --release
 cargo packager --release     # 产物: target/release/MessAuto.app
 # 安装: 备份旧版进 ~/.Trash 后 ditto 到 /Applications/MessAuto.app
 ```
 
-- `/Applications/MessAuto.app` 现 = 本 fork 自编译版（二进制 mtime 与 `target/release/MessAuto` 一致），**非上游 release**；升级上游 = `git fetch upstream && git rebase upstream/master feat/dingtalk-support` 后重编译
-- 配置落 `~/.config/messauto/messauto.json`（其真源在 `~/Dev/tools/configs/_dotfiles/messauto/`，dotfiles 软链，改配置去那边）
+- ~~`/Applications/MessAuto.app` 现 = 本 fork 自编译版~~ —— **2026-07-28 已卸载**；回装需重跑上面的构建；升级上游 = `git fetch upstream && git rebase upstream/master feat/dingtalk-support` 后重编译
+- ~~配置落 `~/.config/messauto/messauto.json`~~ —— **2026-07-28 已随卸载清除**；要回装得先重建该配置（模板在 `~/.Trash/messauto-residue-20260728/dotfiles-messauto/messauto.json`）
 - 需授予：全磁盘访问（读 chat.db / 通知中心库）+ 辅助功能（自动回车）；`src/permissions.rs` 有体检
 
 ## 上游 PR 现状

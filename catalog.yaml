@@ -2,7 +2,7 @@
 name: messauto
 domain: desktop-app
 function: 外来 fork 的 macOS 验证码自动提取 app(上游 LeeeSe/MessAuto,Rust,信息 App + 邮件 App) — 本 fork 增强「钉钉验证码」(读 macOS 通知中心库,2s 定时轮询)
-public_api: "/Applications/MessAuto.app(装机版即本 fork 自编译产物,常驻托盘) · 验证码到达自动填剪贴板/自动回车 · 配置 ~/.config/messauto/messauto.json"
+public_api: "(无 · 2026-07-28 已卸载)原为 /Applications/MessAuto.app,常驻托盘自动填验证码。源码保留,可重编译回装。"
 key_scripts:
   - src/monitor/dingtalk.rs      # 本 fork 核心增强:通知中心库轮询(POLL_INTERVAL=2s),按 rec_id 增量
   - src/monitor/message.rs       # 上游:信息 App(chat.db)监听
@@ -14,7 +14,7 @@ depends_on: []          # 自带完整依赖(Cargo),不消费总部任何能力 
 tier: PACKAGE
 owner: LeeeSe           # 上游作者;本 fork = GitHub 真 fork,origin=zengtianli/MessAuto(isFork=true),另配 upstream remote
 docs: ./CLAUDE.md
-lifecycle: active    # 日常在用:/Applications/MessAuto.app 由本仓自编译(二进制 mtime 与 target/release 一致)
+lifecycle: frozen    # 2026-07-28 app 已卸载,源码保留(钉钉 fork 是唯一副本);非 archived —— 见 notes 的解冻条件
 form: mac
 origin: third_party    # LeeeSe · 175 commits 我 7 · 加「钉钉验证码」,上游 PR #107 CLOSED
 upstream: https://github.com/LeeeSe/MessAuto
@@ -24,5 +24,23 @@ notes: |
   上游 PR LeeeSe/MessAuto#107 状态 CLOSED(draft,未合并)—— 抢跑提了才转 draft,教训见 memory
   feedback-verify-effective-before-pr:本机构建→安装→真实场景端到端确认有效才 PR。
   钉钉这条线**禁改回 FSEvents 文件监听**:通知中心是高频 WAL 库,实测新通知不触发事件(代码注释已记)。
+
+  ── 2026-07-28 退役 ──────────────────────────────────────────────
+  **app 已从 /Applications 卸载**(在 ~/.Trash/MessAuto.app),配置与 dotfiles 条目
+  一并清除(~/.Trash/messauto-residue-20260728/)。**源码仓保留在原位**。
+
+  退役原因(实测,非体感):空闲烧 87.9% 单核、累计 1514 分钟用户态 CPU。
+  sample 3005/3005 帧卡在 email crate 0.0.21 的 Rfc5322Parser::consume_header;
+  且 process_file 是在 watch 循环里同步调的 —— 卡住后邮件功能整个失效,
+  一边失效一边钉住一个核。
+
+  替代品:github.com/zengtianli/otp-sh(自研,216 行 POSIX sh + launchd WatchPaths,
+  零依赖,空闲 0 进程)。短信路径已端到端验证;**钉钉路径尚未端到端验证**。
+
+  **为什么是 frozen 不是 archived**:① 钉钉 fork(feat/dingtalk-support,领先上游
+  4 个提交)是这份工作的唯一副本,上游 PR #107 已 CLOSED;② otp-sh 的钉钉路径
+  还没用真实钉钉验证码验过。**等 otp-sh 钉钉路径验通后再转 archived 并移入 _archive/**
+  (走 /refactor dir,禁裸 mv)。
+
 
 bundle_id: com.doe.messauto    # 同上
