@@ -12,7 +12,11 @@
 >
 > **替代品**：[otp-sh](https://github.com/zengtianli/otp-sh)（自研，216 行 POSIX sh +
 > launchd WatchPaths，零依赖，空闲 0 进程）。短信路径已端到端验证；
-> **钉钉路径尚未端到端验证** —— 所以本仓是 `frozen` 不是 `archived`，
+> **钉钉路径已实测查明:结构性不通** —— launchd `WatchPaths` 底层是 FSEvents，
+> 而 FSEvents 对 usernoted 容器完全不上报（db-wal/db/db-shm/目录 四种目标隔离实测唤醒全 0，
+> chat.db-wal 对照组正常）。**注意本仓的 2s 轮询恰好绕开了这个限制** —— 即上面
+> 「禁改回文件监听」那条注释，根因不是 Rust `notify` 库不可靠，是 launchd 和它同源。
+> 所以本仓是 `frozen` 不是 `archived`，
 > 且 `feat/dingtalk-support` 是那份钉钉工作的唯一副本（上游 PR #107 已 CLOSED）。
 > 等 otp-sh 钉钉路径验通再转 archived 并走 `/refactor dir` 移入 `_archive/`。
 

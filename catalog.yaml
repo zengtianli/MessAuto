@@ -35,7 +35,9 @@ notes: |
   一边失效一边钉住一个核。
 
   替代品:github.com/zengtianli/otp-sh(自研,216 行 POSIX sh + launchd WatchPaths,
-  零依赖,空闲 0 进程)。短信路径已端到端验证;**钉钉路径尚未端到端验证**。
+  零依赖,空闲 0 进程)。短信路径已端到端验证;**钉钉路径实测结构性不通** ——
+  launchd WatchPaths 底层是 FSEvents,对 usernoted 容器不上报(四种目标唤醒全 0)。
+  本仓的 2s 轮询恰好绕开了该限制,这也是「禁改回文件监听」那条注释的真正根因。
 
   **为什么是 frozen 不是 archived**:① 钉钉 fork(feat/dingtalk-support,领先上游
   4 个提交)是这份工作的唯一副本,上游 PR #107 已 CLOSED;② otp-sh 的钉钉路径
