@@ -1,7 +1,10 @@
+**中文** | [English](README_EN.md)
+
 <p align="center">
   <img src="resources/icon_256.png" height="256">
   <h1 align="center">MessAuto</h1>
-  <h4 align="center"> Automatic extraction of SMS and email verification codes on Mac</h4>
+  <h4 align="center"> 自动提取Mac平台的短信和邮箱验证码</h4>
+  <h4 align="center"> Automatic extraction 2FA code for Mac platform</h4>
 <p align="center">
 <a href="https://github.com/LeeeSe/MessAuto/blob/master/LICENSE.txt">
 <img src="https://img.shields.io/github/license/LeeeSe/messauto"
@@ -15,77 +18,77 @@
 </p>
 
 <p align="center">
-  [<a href="./README.md">English</a>] [<a href="docs/README-CN.md">中文</a>]<br>
+  [<a href="README_EN.md">English</a>] [<a href="README.md">中文</a>]<br>
 </p>
 
 # MessAuto
 
-MessAuto is a macOS application that automatically extracts SMS and email verification codes. Built with Rust, it works with any app.
+MessAuto 是一款 macOS 平台自动提取短信和邮箱验证码的软件，由 Rust 开发，适用于任何 App
 
-The following demonstrates the SMS login process with the help of MessAuto:
+下面展示了在 MessAuto 的辅助下完成短信登录的过程
 
 https://github.com/LeeeSe/MessAuto/assets/44465325/6e0aca37-377f-463b-b27e-a12ff8c1e70b
 
-🎉🎉🎉 MessAuto now supports the Mail app
+🎉🎉🎉 MessAuto 现在支持邮件 App
 
 https://github.com/LeeeSe/MessAuto/assets/44465325/33dcec87-61c4-4510-a87c-ef43e69c4e9d
 
-## Usage
-### Download and Install
-Download from [Releases](https://github.com/LeeeSe/MessAuto/releases/latest)
-### Permissions
-- Full Disk Access: System Settings -> Privacy & Security -> Full Disk Access
-- Accessibility: System Settings -> Privacy & Security -> Accessibility
-### Keep Messages and Mail Apps Running in the Background
-Keeping these apps running in the background shortens the time it takes to sync messages from iPhone to Mac.
+## 使用方法
+### 下载并安装
+从 release [下载](https://github.com/LeeeSe/MessAuto/releases/latest)
+### 授权
+- 完全磁盘访问权限：设置 -> 隐私与安全性 -> 完全磁盘访问权限
+- 辅助功能权限：设置 -> 隐私与安全性 -> 辅助功能权限
+### 将信息和邮件 App 常驻后台
+常驻后台可以缩短消息从 iPhone 同步到 Mac 所花时间
 
-## Configuration
-- Auto Paste: Simulates keyboard input to automatically paste the verification code from the clipboard into the input field.
-- Auto Return: Automatically presses the Return key after pasting the verification code.
-- Don't Occupy Clipboard: MessAuto simulates keyboard input to directly type the verification code without occupying the clipboard.
-- Listen for SMS: When enabled, monitors the built-in Messages app on Mac (works best when the app is running in the background; otherwise there may be a delayed response — this is not a MessAuto issue).
-- Listen for Email: When enabled, monitors the built-in Mail app on Mac (same as above).
-- Hide Icon: Temporarily hides the menu bar icon. The icon will reappear when the app restarts (you can stop it via Activity Monitor).
-- Config: Quickly opens the TOML configuration file where you can customize regex patterns and keywords.
-- Log: Quickly opens the log file.
-- Floating Window: Automatically shows a popup near the cursor when a verification code is detected. This forces the "Don't Occupy Clipboard" mode.
+## 配置说明
+- 自动粘贴：将剪贴板中的验证码模拟键盘自动粘贴到输入框内
+- 自动回车：在自动粘贴验证码后再帮你按下回车键
+- 不占用剪贴板： MessAuto 会模拟键盘直接输入验证码，不再占用剪贴板
+- 监听短信：开启后将同时监听 Mac 自带的信息客户端（App 常驻后台效果最好，否则会延迟响应，非 MessAuto 的问题）
+- 监听邮件：开启后将同时监听 Mac 自带的邮件客户端（同上）
+- 隐藏图标：暂时隐藏菜单栏图标，App 重启后将再次显示（可用活动监视器 kill 掉）
+- 配置：快速打开 TOML 格式的配置文件，可自定义正则及关键词
+- 日志：快速打开日志
+- 悬浮窗：获得验证码时自动在光标周围弹窗，将强制设定为 "不占用剪贴板" 状态
 
-> Keywords: Also called trigger words. The program will only perform subsequent operations when a message contains keywords such as "verification code". Otherwise, the message will be ignored.
+> 关键词: 也叫触发词，当信息中包含如"验证码"等关键词时，程序才会执行一系列后续操作，否则会忽略此条信息
 
-## FAQ
-### Cannot Open Because the Developer Cannot Be Verified
-Two solutions (the second is recommended):
-- Open Finder, locate MessAuto.app, and right-click to open it.
-- Run `sudo spctl --master-disable` in Terminal; then go to System Settings -> Privacy & Security -> Allow applications from -> Anywhere.
+## 常见问题
+### 无法打开，因为无法验证开发者
+两种解决方案，推荐第二种
+- 打开访达并找到 MessAuto.app，右键打开
+- 终端执行 `sudo spctl --master-disable`；设置->隐私与安全性->允许以下来源的应用程序->任何来源
 
 ## TODO
 
-- [x] Add in-app updates
-- [x] Optimize verification code extraction logic
-- [ ] Publish to Homebrew
-- [ ] Support third-party email clients
-- [ ] Support Android and Windows
+- [x] 添加应用内更新
+- [x] 优化验证码提取逻辑
+- [ ] 发布到 Homebrew
+- [ ] 支持第三方邮件客户端
+- [ ] 支持 Android 和 Windows
 
-## Development
+## 开发
 
 ```bash
-# Clone the source code
+# 下载源码
 git clone https://github.com/LeeeSe/MessAuto.git
 cd MessAuto
 
-# Build and run (optional, for development and testing only)
+# 编译运行（非必需，仅用于开发测试）
 cargo run
 
-# Install cargo-packager
+# 安装 cargo-packager
 cargo install cargo-packager --locked
-# Build
+# 编译
 cargo build --release
-# Package the application
+# 打包应用
 cargo packager --release
 ```
 
-The generated MessAuto application is located at `target/release/MessAuto.app`.
+生成的 MessAuto 应用位于 `target/release/MessAuto.app`。
 
-## Acknowledgments
+## 感谢
 
-- Thanks to [@尚善若拙](https://sspai.com/post/73072) for providing the idea of extracting SMS verification codes.
+- 感谢 [@尚善若拙](https://sspai.com/post/73072) 提供获取短信思路
